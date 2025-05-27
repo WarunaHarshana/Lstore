@@ -10,6 +10,8 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8f8f8;
+            /* Ensure no horizontal scroll */
+            overflow-x: hidden;
         }
         ::-webkit-scrollbar {
             width: 8px;
@@ -41,16 +43,43 @@
             height: 100%;
             border: 0;
         }
+
+        /* Custom animation for fade-in-up */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .animate-fade-in-up.delay-200 {
+            animation-delay: 0.2s;
+        }
+        .animate-fade-in-up.delay-400 {
+            animation-delay: 0.4s;
+        }
     </style>
 </head>
 <body class="text-gray-800">
 
-    <header class="bg-orange-600 text-white shadow-lg py-4 px-6 md:px-12 fixed top-0 left-0 w-full z-50">
-        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-            <div class="text-3xl font-bold mb-2 md:mb-0">Lakshan Stores</div>
-            <p class="text-lg md:text-xl font-light italic">Your Friendly Local Store.</p>
-            <nav class="mt-4 md:mt-0">
-                <ul class="flex space-x-6">
+    <header class="bg-orange-600 text-white shadow-lg py-3 px-4 md:py-4 md:px-12 fixed top-0 left-0 w-full z-50">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="text-2xl md:text-3xl font-bold">Lakshan Stores</div>
+            
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6 text-sm md:text-base">
                     <li><a href="#home" class="hover:text-orange-100 transition-colors duration-300">Home</a></li>
                     <li><a href="#about" class="hover:text-orange-100 transition-colors duration-300">අප ගැන</a></li>
                     <li><a href="#products-glimpse" class="hover:text-orange-100 transition-colors duration-300">Gallery</a></li>
@@ -58,38 +87,72 @@
                 </ul>
             </nav>
         </div>
+
+        <div class="md:hidden">
+            <p class="text-base font-light italic text-center mt-1">Your Friendly Local Store.</p>
+            <nav id="mobile-menu" class="hidden mt-2 w-full bg-orange-600 shadow-lg py-2">
+                <ul class="flex flex-col space-y-2 text-sm text-center">
+                    <li><a href="#home" class="block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300">Home</a></li>
+                    <li><a href="#about" class="block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300">අප ගැන</a></li>
+                    <li><a href="#products-glimpse" class="block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300">Gallery</a></li>
+                    <li><a href="#contact" class="block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <section id="home" class="relative bg-gradient-to-r from-orange-500 to-orange-700 text-white py-20 md:py-32 overflow-hidden shadow-xl pt-24">
-        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-6 md:px-12">
-            <div class="text-center md:text-left mb-10 md:mb-0 md:w-1/2">
-                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 animate-fade-in-up">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('block');
+            });
+
+            // Close menu when a link is clicked (for single-page navigation)
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) { // Only close on mobile
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('block');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <section id="home" class="relative bg-gradient-to-r from-orange-500 to-orange-700 text-white py-16 md:py-32 overflow-hidden shadow-xl pt-24 md:pt-32">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 md:px-12">
+            <div class="text-center md:text-left mb-8 md:mb-0 md:w-1/2">
+                <h1 class="text-3xl md:text-6xl font-extrabold leading-tight mb-3 animate-fade-in-up">
                     Your Daily Needs, Made Easy.
                 </h1>
-                <p class="text-lg md:text-xl mb-8 opacity-90 animate-fade-in-up delay-200">
+                <p class="text-base md:text-xl mb-6 opacity-90 animate-fade-in-up delay-200">
                     Get your essentials delivered right to your home, with a friendly smile!
                 </p>
-                <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4 animate-fade-in-up delay-400">
-                    <a href="https://wa.me/94761683984" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="inline-block mr-2 bi bi-whatsapp" viewBox="0 0 16 16">  <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
+                <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-3 animate-fade-in-up delay-400">
+                    <a href="https://wa.me/94761683984" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-green-500 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105 text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="inline-block mr-2 bi bi-whatsapp" viewBox="0 0 16 16">  <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
                         Chat on WhatsApp
                     </a>
                 </div>
             </div>
-            <div class="md:w-1/2 flex justify-center md:justify-end">
+            <div class="md:w-1/2 flex justify-center md:justify-end mt-8 md:mt-0">
                 <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrFvTy5EdYm5OSdFbBdJhsJK4mJ8VGod3Q1jSSzspiCSUyw02DUrnetCk-2SJaIU8WAeKup4wQCNGCSCnI2ipopxnd79_qKemMnkLtTtLzavgd_D9OMUsf2zMJ6hlB4KqucBIFK=s680-w680-h510-rw" alt="Lakshan Stores Exterior" class="rounded-xl shadow-2xl max-w-full h-auto transform rotate-3 hover:rotate-0 transition-transform duration-500">
             </div>
         </div>
     </section>
 
-    <section id="about" class="py-16 md:py-24 bg-gradient-to-r from-orange-50 to-orange-100 px-6 md:px-12">
+    <section id="about" class="py-12 md:py-24 bg-gradient-to-r from-orange-50 to-orange-100 px-4 md:px-12">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center text-orange-600 mb-12">අප ගැන</h2>
-            <div class="flex flex-col md:flex-row items-center gap-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-orange-600 mb-8 md:mb-12">අප ගැන</h2>
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-10">
                 <div class="md:w-1/2">
                     <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqOgKYn2cIPobv_PZSU0Eb34w_gshIYCzhdY76SM6O3jSWok_eFe9H042dI0eL43rP_9c89is2d3Um0W7UN3yPnZiOV1tkZ5m5zRDnMmyWknJRz4S7z-v51rxVCIoR_LdlkG2a7=s680-w680-h510-rw" alt="Lakshan Stores Interior" class="rounded-xl shadow-lg w-full h-auto transform rotate-3 hover:rotate-0 transition-transform duration-500">
                 </div>
-                <div class="md:w-1/2 text-lg leading-relaxed text-gray-700">
+                <div class="md:w-1/2 text-base md:text-lg leading-relaxed text-gray-700">
                     <p class="mb-4">
                         ලක්ෂාන් ස්ටෝර්ස් යනු ඔබේ දෛනික අත්‍යවශ්‍ය ද්‍රව්‍ය පහසුවෙන් ඔබේ ස්ථානයටම ලබා දෙන ඔබේ කැපවූ සහකරු වේ. ගබඩාවට පැමිණීමේ අපහසුතාවයකින් තොරව ඔබේ අවශ්‍යතා සපුරාලීමට අවධානය යොමු කරමින්, විශ්වාසනීය සේවාවක් සැපයීමට අපි විශේෂඥයෝ වෙමු.
                     </p>
@@ -101,60 +164,60 @@
         </div>
     </section>
 
-    <section id="products-glimpse" class="py-16 md:py-24 bg-gradient-to-r from-orange-100 to-orange-200 px-6 md:px-12">
+    <section id="products-glimpse" class="py-12 md:py-24 bg-gradient-to-r from-orange-100 to-orange-200 px-4 md:px-12">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center text-orange-600 mb-12">A Glimpse of Our Offerings</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-orange-600 mb-8 md:mb-12">A Glimpse of Our Offerings</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                 <div class="bg-white rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
-                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nozbuWWhZNQlTHFg-iojdvgPOp3IIAvRh0-5fEgQlqLBeghcYmX5U3x9Rer5sl-mSBJ952vHqRmqz9e_GeLFfqUDFcsGrBDwL0bXpnj_MgmXTREFb20RZN-sMH3cthYrN5bJ6U=s680-w680-h510-rw" alt="Lakshan Stores Products 1" class="w-full h-64 object-cover">
-                    <div class="p-4 text-center">
-                        <p class="text-lg font-semibold">Wide Range of Goods</p>
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nozbuWWhZNQlTHFg-iojdvgPOp3IIAvRh0-5fEgQlqLBeghcYmX5U3x9Rer5sl-mSBJ952vHqRmqz9e_GeLFfqUDFcsGrBDwL0bXpnj_MgmXTREFb20RZN-sMH3cthYrN5bJ6U=s680-w680-h510-rw" alt="Lakshan Stores Products 1" class="w-full h-48 md:h-64 object-cover">
+                    <div class="p-3 md:p-4 text-center">
+                        <p class="text-base md:text-lg font-semibold">Wide Range of Goods</p>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
-                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4noFZTMQWa52t5Z3we3QbAOW9B8RAll0JmmspaEeRaf5D22Na3Fyv33o9uzR-W1uimWaGTb9YpKJldV3JYm6jPGbiHcU46trz3bdnaSgAcLz6AG08dCBoMj7DTM0fpOc0O9kBZS6=s680-w680-h510-rw" alt="Lakshan Stores Products 2" class="w-full h-64 object-cover">
-                    <div class="p-4 text-center">
-                        <p class="text-lg font-semibold">Quality Items</p>
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4noFZTMQWa52t5Z3we3QbAOW9B8RAll0JmmspaEeRaf5D22Na3Fyv33o9uzR-W1uimWaGTb9YpKJldV3JYm6jPGbiHcU46trz3bdnaSgAcLz6AG08dCBoMj7DTM0fpOc0O9kBZS6=s680-w680-h510-rw" alt="Lakshan Stores Products 2" class="w-full h-48 md:h-64 object-cover">
+                    <div class="p-3 md:p-4 text-center">
+                        <p class="text-base md:text-lg font-semibold">Quality Items</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-16 md:py-24 bg-gradient-to-r from-orange-200 to-orange-300 px-6 md:px-12">
+    <section id="contact" class="py-12 md:py-24 bg-gradient-to-r from-orange-200 to-orange-300 px-4 md:px-12">
         <div class="container mx-auto text-center">
-            <h2 class="text-4xl font-bold text-orange-600 mb-12">Let's Connect!</h2>
-            <div class="flex flex-col md:flex-row justify-center items-center gap-10">
-                <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-300 md:w-1/2 lg:w-1/3">
-                    <h3 class="text-2xl font-semibold mb-4 text-orange-700">Our Details</h3>
-                    <p class="text-lg mb-2 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-geo-alt-fill w-6 h-6 mr-2 text-orange-500" viewBox="0 0 16 16">
+            <h2 class="text-3xl md:text-4xl font-bold text-orange-600 mb-8 md:mb-12">Let's Connect!</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-10">
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-300 md:w-1/2 lg:w-1/3">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3 md:mb-4 text-orange-700">Our Details</h3>
+                    <p class="text-base mb-2 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt-fill w-5 h-5 mr-2 text-orange-500" viewBox="0 0 16 16">
                             <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
                         </svg>
                         No 190, Ethpetiyawa,
                     </p>
-                    <p class="text-lg mb-2">Akuramboda, Pallepola 21142, Sri Lanka</p>
-                    <p class="text-lg mb-4 flex items-center justify-center"><svg class="w-6 h-6 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.774a11.037 11.037 0 006.103 6.103l.774-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.823 18 2 12.177 2 5V3z"></path></svg>076 168 3984</p>
-                    <p class="text-lg font-semibold text-orange-500 mb-4">Open Daily: Until 8:00 PM</p>
-                    <a href="https://wa.me/94761683984" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="inline-block mr-2 bi bi-whatsapp" viewBox="0 0 16 16">  <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
+                    <p class="text-base mb-2">Akuramboda, Pallepola 21142, Sri Lanka</p>
+                    <p class="text-base mb-4 flex items-center justify-center"><svg class="w-5 h-5 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.774a11.037 11.037 0 006.103 6.103l.774-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.823 18 2 12.177 2 5V3z"></path></svg>076 168 3984</p>
+                    <p class="text-base font-semibold text-orange-500 mb-4">Open Daily: Until 8:00 PM</p>
+                    <a href="https://wa.me/94761683984" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-green-500 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="inline-block mr-2 bi bi-whatsapp" viewBox="0 0 16 16">  <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
                         Chat on WhatsApp
                     </a>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-300 md:w-1/2 lg:w-1/3 mt-8 md:mt-0">
-                    <h3 class="text-2xl font-semibold mb-4 text-orange-700">Find Us Here!</h3>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-300 md:w-1/2 lg:w-1/3 mt-8 md:mt-0">
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3 md:mb-4 text-orange-700">Find Us Here!</h3>
                     <div class="map-container rounded-xl shadow-md">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.276667862802!2d80.60180919999999!3d7.653371600000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae34deb9d28a429%3A0x14d697a92f12b6b8!2sLakshan%20Stores!5e0!3m2!1sen!2slk!4v1748331173273!5m2!1sen!2slk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                    <p class="text-sm text-gray-600 mt-4">Click on the map for directions.</p>
+                    <p class="text-sm text-gray-600 mt-3 md:mt-4">Click on the map for directions.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-gray-800 text-white py-8 px-6 md:px-12">
+    <footer class="bg-gray-800 text-white py-6 px-4 md:py-8 md:px-12">
         <div class="container mx-auto text-center">
-            <p class="text-sm">© 2025 Lakshan Stores. All rights reserved.</p>
+            <p class="text-xs md:text-sm">© 2025 Lakshan Stores. All rights reserved.</p>
         </div>
     </footer>
 
