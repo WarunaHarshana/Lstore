@@ -1,44 +1,23 @@
 [
   {
     "id": 1,
-    "name": "Fresh Bananas",
-    "description": "A bunch of ripe and sweet bananas, perfect for a quick snack.",
-    "price": 1.99,
-    "image": "https://placehold.co/300x300/orange/white?text=Fresh+Bananas"
+    "name": "Araliya White Nadu Rice 5Kg",
+    "description": "Premium quality Araliya white nadu rice, 5kg pack.",
+    "price": 1150.00,
+    "image": "images/rice.png"
   },
   {
     "id": 2,
-    "name": "Whole Wheat Bread",
-    "description": "Healthy and delicious whole wheat bread, freshly baked.",
-    "price": 3.49,
-    "image": "https://placehold.co/300x300/orange/white?text=Whole+Wheat+Bread"
+    "name": "Munchee Super Cream Cracker 190G",
+    "description": "Classic Munchee super cream crackers, 190g pack.",
+    "price": 200.00,
+    "image": "images/cream-cracker.png"
   },
   {
     "id": 3,
-    "name": "Farm Fresh Eggs",
-    "description": "A dozen large, brown farm fresh eggs.",
-    "price": 4.20,
-    "image": "https://placehold.co/300x300/orange/white?text=Farm+Fresh+Eggs"
-  },
-  {
-    "id": 4,
-    "name": "Organic Milk",
-    "description": "One gallon of fresh, organic whole milk.",
-    "price": 5.99,
-    "image": "https://placehold.co/300x300/orange/white?text=Organic+Milk"
-  },
-  {
-    "id": 5,
-    "name": "Sri Lankan Rice",
-    "description": "1kg bag of high-quality Sri Lankan white rice.",
-    "price": 2.75,
-    "image": "https://placehold.co/300x300/orange/white?text=Sri+Lankan+Rice"
-  },
-  {
-    "id": 6,
-    "name": "Ceylon Tea",
-    "description": "A box of premium Ceylon black tea bags.",
-    "price": 4.50,
-    "image": "https://placehold.co/300x300/orange/white?text=Ceylon+Tea"
+    "name": "Prima Noodles Kottu Mee Hot & Spicy 80G",
+    "description": "Prima instant noodles, Kottu Mee Hot & Spicy flavor, 80g pack.",
+    "price": 130.00,
+    "image": "images/kottumee.png"
   }
 ]
