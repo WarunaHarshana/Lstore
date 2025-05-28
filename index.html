@@ -27,10 +27,11 @@
                     <li><a href="#about" class="hover:text-orange-100 transition-colors duration-300">අප ගැන</a></li>
                     <li><a href="#products-glimpse" class="hover:text-orange-100 transition-colors duration-300">Products</a></li>
                     <li>
-                        <a href="#cart-section" class="hover:text-orange-100 transition-colors duration-300 flex items-center">
+                        <button type="button" id="desktop-cart-button" class="relative hover:text-orange-100 transition-colors duration-300 flex items-center focus:outline-none">
                             <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
                             Cart
-                        </a>
+                            <span id="desktop-cart-badge" class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                        </button>
                     </li>
                     <li><a href="#products-glimpse" class="hover:text-orange-100 transition-colors duration-300">Gallery</a></li>
                     <li><a href="#contact" class="hover:text-orange-100 transition-colors duration-300">Contact</a></li>
@@ -46,10 +47,11 @@
                     <li><a href="#about" class="block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300">අප ගැන</a></li>
                     <li><a href="#products-glimpse" class="block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300">Products</a></li>
                     <li>
-                        <a href="#cart-section" class="block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300 flex items-center justify-center">
+                        <button type="button" id="mobile-cart-button" class="relative w-full block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300 flex items-center justify-center focus:outline-none">
                             <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
                             Cart
-                        </a>
+                            <span id="mobile-cart-badge" class="absolute top-0 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                        </button>
                     </li>
                     <li><a href="#products-glimpse" class="block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300">Gallery</a></li>
                     <li><a href="#contact" class="block py-2 px-4 hover:bg-orange-500 rounded transition-colors duration-300">Contact</a></li>
@@ -80,6 +82,15 @@
         </div>
     </section>
 
+    <section id="products-glimpse" class="py-12 md:py-24 bg-gradient-to-r from-orange-100 to-orange-200 px-4 md:px-12">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-orange-600 mb-8 md:mb-12">Explore Our Products</h2>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
     <section id="about" class="py-12 md:py-24 bg-gradient-to-r from-orange-50 to-orange-100 px-4 md:px-12">
         <div class="container mx-auto">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-orange-600 mb-8 md:mb-12">අප ගැන</h2>
@@ -95,15 +106,6 @@
                         ඔබට අවශ්‍ය නිෂ්පාදන ඔබේ නිවසටම ගෙන්වා ගැනීමට බාධාවකින් තොර සහ කාර්යක්ෂම ක්‍රමයක් සැපයීමට අපගේ කැපවීමයි. විශ්වාසනීය සේවාවක් සහ පාරිභෝගික පහසුව පිළිබඳව අපි ආඩම්බර වෙමු.
                     </p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="products-glimpse" class="py-12 md:py-24 bg-gradient-to-r from-orange-100 to-orange-200 px-4 md:px-12">
-        <div class="container mx-auto">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-orange-600 mb-8 md:mb-12">Explore Our Products</h2>
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-                <!-- Products will be loaded here by JavaScript -->
             </div>
         </div>
     </section>
@@ -139,29 +141,37 @@
         </div>
     </section>
 
-    <section id="cart-section" class="py-12 md:py-16 bg-gray-100 px-4 md:px-12">
-        <div class="container mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-center text-orange-600 mb-8">Your Shopping Cart</h2>
-            <div id="cart-items-container" class="bg-white shadow-md rounded-lg p-6">
-                <!-- Cart items will be dynamically inserted here -->
-                <p id="cart-empty-message" class="text-gray-500 text-center">Your cart is currently empty.</p>
-            </div>
-            <div id="cart-summary" class="mt-6 text-right">
-                <p class="text-xl font-semibold text-gray-700">Total: $<span id="cart-total">0.00</span></p>
-                <button id="send-whatsapp-btn" class="hidden mt-4 bg-green-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-green-600 transition-colors duration-300 flex items-center justify-center mx-auto sm:mr-0 sm:ml-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="inline-block mr-2 bi bi-whatsapp" viewBox="0 0 16 16">  <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
-                    Send Order via WhatsApp
-                </button>
-            </div>
-        </div>
-    </section>
-
     <footer class="bg-gray-800 text-white py-6 px-4 md:py-8 md:px-12">
         <div class="container mx-auto text-center">
             <p class="text-xs md:text-sm">© 2025 Lakshan Stores. All rights reserved.</p>
         </div>
     </footer>
 
+    <div id="cart-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md md:max-w-lg max-h-[80vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 class="text-xl font-semibold text-orange-600">Your Shopping Cart</h3>
+                <button id="close-cart-modal-btn" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+
+            <!-- Modal Body (Cart Items) -->
+            <div id="cart-modal-items-container" class="p-4 overflow-y-auto flex-grow">
+                <!-- Cart items will be dynamically inserted here by renderCart() -->
+                <!-- The existing #cart-items-container content structure will be reused by renderCart() here -->
+                <p id="cart-modal-empty-message" class="text-gray-500 text-center">Your cart is currently empty.</p>
+            </div>
+
+            <!-- Modal Footer (Cart Summary & Action) -->
+            <div id="cart-modal-summary" class="p-4 border-t">
+                <p class="text-lg font-semibold text-gray-700 text-right">Total: $<span id="cart-modal-total">0.00</span></p>
+                <button id="whatsapp-checkout-btn" class="mt-4 w-full bg-green-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-green-600 transition-colors duration-300 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="inline-block mr-2 bi bi-whatsapp" viewBox="0 0 16 16"> <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
+                    Send Order via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
     <script src="script.js" defer></script>
 </body>
 </html>

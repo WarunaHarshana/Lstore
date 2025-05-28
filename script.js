@@ -22,41 +22,88 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // E-commerce Logic
     const productGrid = document.getElementById('product-grid');
-    const cartItemsContainer = document.getElementById('cart-items-container');
-    const cartEmptyMessage = document.getElementById('cart-empty-message');
-    const cartTotalSpan = document.getElementById('cart-total');
-    const sendWhatsAppBtn = document.getElementById('send-whatsapp-btn');
+    // Old cart section elements (will be removed or repurposed for modal)
+    // const cartItemsContainer = document.getElementById('cart-items-container'); // Now cart-modal-items-container
+    // const cartEmptyMessage = document.getElementById('cart-empty-message'); // Now cart-modal-empty-message
+    // const cartTotalSpan = document.getElementById('cart-total'); // Now cart-modal-total
+    // const sendWhatsAppBtn = document.getElementById('send-whatsapp-btn'); // Now whatsapp-checkout-btn
+
+    // Modal elements
+    const cartModal = document.getElementById('cart-modal');
+    const closeCartModalBtn = document.getElementById('close-cart-modal-btn');
+    const desktopCartButton = document.getElementById('desktop-cart-button');
+    const mobileCartButton = document.getElementById('mobile-cart-button');
     
+    // Elements inside the modal for cart content
+    const cartModalItemsContainer = document.getElementById('cart-modal-items-container');
+    const cartModalEmptyMessage = document.getElementById('cart-modal-empty-message');
+    const cartModalTotalSpan = document.getElementById('cart-modal-total');
+    const whatsappCheckoutBtn = document.getElementById('whatsapp-checkout-btn');
+
+    // Cart Badge Elements
+    const desktopCartBadge = document.getElementById('desktop-cart-badge');
+    const mobileCartBadge = document.getElementById('mobile-cart-badge');
+
     let cart = [];
     let allProducts = [];
+
+    function updateCartBadge() {
+        const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const badges = [desktopCartBadge, mobileCartBadge];
+        
+        badges.forEach(badge => {
+            if (badge) {
+                if (totalQuantity > 0) {
+                    badge.textContent = totalQuantity;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
+        });
+    }
 
     function loadCart() {
         cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
         renderCart(); 
+        updateCartBadge(); // Update badge on initial load
     }
 
     function saveCart() {
         localStorage.setItem('shoppingCart', JSON.stringify(cart));
+        updateCartBadge(); // Update badge whenever cart is saved
+    }
+
+    function openCartModal() {
+        if (cartModal) {
+            cartModal.classList.remove('hidden');
+            renderCart(); // Re-render cart content when modal is opened
+        }
+    }
+
+    function closeCartModal() {
+        if (cartModal) {
+            cartModal.classList.add('hidden');
+        }
     }
 
     function renderCart() {
-        if (!cartItemsContainer || !cartEmptyMessage || !cartTotalSpan || !sendWhatsAppBtn) {
-            // If essential cart elements are not on the page, do not proceed.
-            // This can happen if script.js is loaded on a page without these elements.
-            console.warn("Cart elements not found. Skipping cart rendering.");
+        // Ensure modal content containers exist
+        if (!cartModalItemsContainer || !cartModalEmptyMessage || !cartModalTotalSpan || !whatsappCheckoutBtn) {
+            console.warn("Cart modal elements not found. Skipping cart rendering.");
             return;
         }
 
-        cartItemsContainer.innerHTML = ''; // Clear existing items
+        cartModalItemsContainer.innerHTML = ''; // Clear existing items
         let overallTotal = 0;
 
         if (cart.length === 0) {
-            cartEmptyMessage.classList.remove('hidden');
-            cartItemsContainer.appendChild(cartEmptyMessage); 
-            sendWhatsAppBtn.classList.add('hidden'); // Hide WhatsApp button if cart is empty
+            cartModalEmptyMessage.classList.remove('hidden');
+            // cartModalItemsContainer.appendChild(cartModalEmptyMessage); // No need to re-append if it's a permanent child
+            whatsappCheckoutBtn.classList.add('hidden'); 
         } else {
-            cartEmptyMessage.classList.add('hidden');
-            sendWhatsAppBtn.classList.remove('hidden'); // Show WhatsApp button if cart has items
+            cartModalEmptyMessage.classList.add('hidden');
+            whatsappCheckoutBtn.classList.remove('hidden'); 
             cart.forEach(item => {
                 const itemSubtotal = item.price * item.quantity;
                 overallTotal += itemSubtotal;
@@ -79,11 +126,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         <button data-id="${item.id}" class="remove-item text-red-500 hover:text-red-700 text-sm font-medium">Remove</button>
                     </div>
                 `;
-                cartItemsContainer.appendChild(cartItemElement);
+                cartModalItemsContainer.appendChild(cartItemElement);
             });
         }
-        cartTotalSpan.textContent = overallTotal.toFixed(2);
-        // console.log('Cart rendered:', cart); // Keep for debugging if necessary
+        cartModalTotalSpan.textContent = overallTotal.toFixed(2);
     }
 
     function addToCart(productId, buttonElement) {
@@ -98,7 +144,8 @@ document.addEventListener('DOMContentLoaded', function() {
             cart.push({ id: productIdNum, name: productToAdd.name, price: productToAdd.price, quantity: 1 });
         }
         saveCart();
-        renderCart();
+        // renderCart(); // renderCart is called by openCartModal if modal is opened, and by saveCart's callers otherwise.
+                       // updateCartBadge is called by saveCart.
 
         if (buttonElement) {
             const originalText = buttonElement.textContent; // Use textContent for button text
@@ -123,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cart[itemIndex].quantity = newQuantity;
             }
             saveCart();
-            renderCart();
+            // renderCart(); // updateCartBadge is called by saveCart.
         }
     }
 
@@ -131,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const productIdNum = parseInt(productId);
         cart = cart.filter(item => item.id !== productIdNum);
         saveCart();
-        renderCart();
+        // renderCart(); // updateCartBadge is called by saveCart.
     }
 
     function generateWhatsAppMessage() {
@@ -169,8 +216,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listener for cart item interactions (increment, decrement, remove)
-    if (cartItemsContainer) {
-        cartItemsContainer.addEventListener('click', function(event) {
+    if (cartModalItemsContainer) {
+        cartModalItemsContainer.addEventListener('click', function(event) {
             const target = event.target;
             const productId = target.dataset.id;
             if (!productId) return;
@@ -187,9 +234,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Event listener for "Send Order via WhatsApp" button
-    if (sendWhatsAppBtn) {
-        sendWhatsAppBtn.addEventListener('click', sendCartToWhatsApp);
+    // Event listeners for modal open/close
+    if (desktopCartButton) {
+        desktopCartButton.addEventListener('click', openCartModal);
+    }
+    if (mobileCartButton) {
+        mobileCartButton.addEventListener('click', openCartModal);
+    }
+    if (closeCartModalBtn) {
+        closeCartModalBtn.addEventListener('click', closeCartModal);
+    }
+    if (cartModal) {
+        cartModal.addEventListener('click', (event) => {
+            if (event.target === cartModal) { // Click on overlay
+                closeCartModal();
+            }
+        });
+    }
+    
+    // Event listener for "Send Order via WhatsApp" button inside the modal
+    if (whatsappCheckoutBtn) {
+        whatsappCheckoutBtn.addEventListener('click', sendCartToWhatsApp);
     }
 
     // Initial cart load and product fetching
