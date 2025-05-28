@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cartItemElement.innerHTML = `
                     <div class="w-full sm:w-2/5 mb-2 sm:mb-0">
                         <p class="font-semibold text-orange-700">${item.name}</p>
-                        <p class="text-sm text-gray-600">Price: $${item.price.toFixed(2)}</p>
+                        <p class="text-sm text-gray-600">Price: රු. ${item.price.toFixed(2)}</p>
                     </div>
                     <div class="w-auto sm:w-1/5 flex items-center justify-start sm:justify-center mb-2 sm:mb-0">
                         <button data-id="${item.id}" class="decrement-qty text-orange-500 hover:text-orange-700 font-bold py-1 px-2 rounded hover:bg-orange-100">-</button>
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <button data-id="${item.id}" class="increment-qty text-orange-500 hover:text-orange-700 font-bold py-1 px-2 rounded hover:bg-orange-100">+</button>
                     </div>
                     <div class="w-auto sm:w-1/5 text-left sm:text-center font-semibold text-gray-700 mb-2 sm:mb-0">
-                        $${itemSubtotal.toFixed(2)}
+                        රු. ${itemSubtotal.toFixed(2)}
                     </div>
                     <div class="w-full sm:w-1/5 text-right">
                         <button data-id="${item.id}" class="remove-item text-red-500 hover:text-red-700 text-sm font-medium">Remove</button>
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cartModalItemsContainer.appendChild(cartItemElement);
             });
         }
-        cartModalTotalSpan.textContent = overallTotal.toFixed(2);
+        cartModalTotalSpan.textContent = `රු. ${overallTotal.toFixed(2)}`;
     }
 
     function addToCart(productId, buttonElement) {
@@ -187,9 +187,9 @@ document.addEventListener('DOMContentLoaded', function() {
         cart.forEach(item => {
             const itemSubtotal = item.price * item.quantity;
             overallTotal += itemSubtotal;
-            message += `- ${item.name} (${item.quantity}) @ $${item.price.toFixed(2)} each = $${itemSubtotal.toFixed(2)}\n`;
+            message += `- ${item.name} (${item.quantity}) @ රු. ${item.price.toFixed(2)} each = රු. ${itemSubtotal.toFixed(2)}\n`;
         });
-        message += `\nTotal Order Value: $${overallTotal.toFixed(2)}`;
+        message += `\nTotal Order Value: රු. ${overallTotal.toFixed(2)}`;
         return message;
     }
 
@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <img src="${product.image}" alt="${product.name}" class="w-full h-48 md:h-64 object-cover">
                             <div class="p-3 md:p-4 text-center">
                                 <h3 class="text-lg font-semibold text-orange-700">${product.name}</h3>
-                                <p class="text-base text-gray-800 mt-1">$${product.price.toFixed(2)}</p>
+                                <p class="text-base text-gray-800 mt-1">රු. ${product.price.toFixed(2)}</p>
                                 <button data-product-id="${product.id}" class="add-to-cart-btn mt-3 bg-orange-500 text-white font-bold py-2 px-4 rounded-full hover:bg-orange-600 active:bg-orange-700 transition-colors duration-300">Add to Cart</button>
                             </div>
                         </div>
