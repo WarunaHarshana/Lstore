@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Fresh Bananas",
+    "description": "A bunch of ripe and sweet bananas, perfect for a quick snack.",
+    "price": 1.99,
+    "image": "https://placehold.co/300x300/orange/white?text=Fresh+Bananas"
+  },
+  {
+    "id": 2,
+    "name": "Whole Wheat Bread",
+    "description": "Healthy and delicious whole wheat bread, freshly baked.",
+    "price": 3.49,
+    "image": "https://placehold.co/300x300/orange/white?text=Whole+Wheat+Bread"
+  },
+  {
+    "id": 3,
+    "name": "Farm Fresh Eggs",
+    "description": "A dozen large, brown farm fresh eggs.",
+    "price": 4.20,
+    "image": "https://placehold.co/300x300/orange/white?text=Farm+Fresh+Eggs"
+  },
+  {
+    "id": 4,
+    "name": "Organic Milk",
+    "description": "One gallon of fresh, organic whole milk.",
+    "price": 5.99,
+    "image": "https://placehold.co/300x300/orange/white?text=Organic+Milk"
+  },
+  {
+    "id": 5,
+    "name": "Sri Lankan Rice",
+    "description": "1kg bag of high-quality Sri Lankan white rice.",
+    "price": 2.75,
+    "image": "https://placehold.co/300x300/orange/white?text=Sri+Lankan+Rice"
+  },
+  {
+    "id": 6,
+    "name": "Ceylon Tea",
+    "description": "A box of premium Ceylon black tea bags.",
+    "price": 4.50,
+    "image": "https://placehold.co/300x300/orange/white?text=Ceylon+Tea"
+  }
+]
