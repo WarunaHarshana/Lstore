@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cart[itemIndex].quantity = newQuantity;
             }
             saveCart();
-            // renderCart(); // updateCartBadge is called by saveCart.
+            renderCart(); 
         }
     }
 
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const productIdNum = parseInt(productId);
         cart = cart.filter(item => item.id !== productIdNum);
         saveCart();
-        // renderCart(); // updateCartBadge is called by saveCart.
+        renderCart(); 
     }
 
     function generateWhatsAppMessage() {
