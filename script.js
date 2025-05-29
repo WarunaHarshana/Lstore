@@ -76,14 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openCartModal() {
         if (cartModal) {
-            cartModal.classList.remove('hidden');
-            renderCart(); // Re-render cart content when modal is opened
+            renderCart(); // Render content first
+            cartModal.classList.add('modal-active');
         }
     }
 
     function closeCartModal() {
         if (cartModal) {
-            cartModal.classList.add('hidden');
+            cartModal.classList.remove('modal-active');
         }
     }
 
@@ -115,15 +115,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p class="text-sm text-gray-600">Price: රු. ${item.price.toFixed(2)}</p>
                     </div>
                     <div class="w-auto sm:w-1/5 flex items-center justify-start sm:justify-center mb-2 sm:mb-0">
-                        <button data-id="${item.id}" class="decrement-qty text-orange-500 hover:text-orange-700 font-bold py-1 px-2 rounded hover:bg-orange-100">-</button>
+                        <button data-id="${item.id}" class="decrement-qty text-orange-500 hover:text-orange-700 font-bold py-1 px-2 rounded hover:bg-orange-100 transition-colors duration-200">-</button>
                         <span class="mx-2 text-center w-8">${item.quantity}</span>
-                        <button data-id="${item.id}" class="increment-qty text-orange-500 hover:text-orange-700 font-bold py-1 px-2 rounded hover:bg-orange-100">+</button>
+                        <button data-id="${item.id}" class="increment-qty text-orange-500 hover:text-orange-700 font-bold py-1 px-2 rounded hover:bg-orange-100 transition-colors duration-200">+</button>
                     </div>
                     <div class="w-auto sm:w-1/5 text-left sm:text-center font-semibold text-gray-700 mb-2 sm:mb-0">
                         රු. ${itemSubtotal.toFixed(2)}
                     </div>
                     <div class="w-full sm:w-1/5 text-right">
-                        <button data-id="${item.id}" class="remove-item text-red-500 hover:text-red-700 text-sm font-medium">Remove</button>
+                        <button data-id="${item.id}" class="remove-item text-red-500 hover:text-red-700 text-sm font-medium transition-colors duration-200">Remove</button>
                     </div>
                 `;
                 cartModalItemsContainer.appendChild(cartItemElement);
@@ -260,6 +260,55 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial cart load and product fetching
     loadCart(); // This will also call renderCart
 
+    // Scroll Animation Logic
+    const animatedElements = document.querySelectorAll('.scroll-animate-fade-in-up');
+    let scrollObserver; // Declare here to be accessible in the .then block
+
+    if (animatedElements.length > 0 || productGrid) { // Initialize if static elements or product grid exists
+        const observerOptions = {
+            root: null, 
+            rootMargin: '0px',
+            threshold: 0.1 
+        };
+
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        };
+
+        scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+        animatedElements.forEach(el => scrollObserver.observe(el));
+    }
+
+    // Subtle Parallax Scroll for specific images
+    const parallaxImages = document.querySelectorAll('.parallax-image');
+
+    if (parallaxImages.length > 0) {
+        // Store initial rotations
+        parallaxImages.forEach(img => {
+            if (img.classList.contains('rotate-3')) {
+                img.dataset.initialRotation = '3'; 
+            } else {
+                img.dataset.initialRotation = '0';
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY;
+            parallaxImages.forEach(img => {
+                const initialRotation = parseFloat(img.dataset.initialRotation) || 0;
+                const offsetY = scrollY * 0.1; 
+                img.style.transform = `translateY(-${offsetY}px) rotate(${initialRotation}deg)`;
+            });
+        });
+        // Note: This JS-controlled transform will override the hover:rotate-0 CSS effect.
+    }
+
+
     if (productGrid) { // Only fetch products if the grid exists on the page
         fetch('products.json')
             .then(response => {
@@ -271,9 +320,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(productsData => {
                 allProducts = productsData;
                 productsData.forEach(product => {
-                    const productCard = `
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-48 md:h-64 object-cover">
+                    // Create a temporary div to parse the productCard string
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = `
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 scroll-animate-fade-in-up">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-48 md:h-64 object-cover image-fade-on-load">
                             <div class="p-3 md:p-4 text-center">
                                 <h3 class="text-lg font-semibold text-orange-700">${product.name}</h3>
                                 <p class="text-base text-gray-800 mt-1">රු. ${product.price.toFixed(2)}</p>
@@ -281,8 +332,28 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                     `;
-                    productGrid.innerHTML += productCard;
+                    const productCardElement = tempDiv.firstElementChild;
+                    productGrid.appendChild(productCardElement);
+
+                    const imgElement = productCardElement.querySelector('.image-fade-on-load');
+                    if (imgElement) {
+                        imgElement.addEventListener('load', function() {
+                            this.classList.add('image-loaded');
+                        });
+                        imgElement.addEventListener('error', function() {
+                            // Handle broken images: make it visible or show placeholder text/style
+                            this.style.opacity = '1'; 
+                            // Optionally, you could change the alt text or add a class for broken image styling
+                            // this.alt = "Image not available"; 
+                        });
+                    }
+                    
+                    // Observe the card itself for scroll animation
+                    if (scrollObserver && productCardElement) {
+                        scrollObserver.observe(productCardElement);
+                    }
                 });
+                                
                 attachAddToCartListeners();
             })
             .catch(error => {
