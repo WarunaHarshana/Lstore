@@ -55,3 +55,52 @@ body {
         .animate-fade-in-up.delay-400 {
             animation-delay: 0.4s;
         }
+
+/* Cart Modal Transition Styles */
+#cart-modal {
+    opacity: 0;
+    visibility: hidden; /* Keep it hidden and out of flow when not active */
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out; /* Transition opacity and visibility */
+}
+
+#cart-modal.modal-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Optional: Add a slight scale effect to the modal content for a bit more polish */
+#cart-modal .bg-white { /* Targeting the inner modal content box */
+    transform: scale(0.95);
+    transition: transform 0.3s ease-out;
+}
+
+#cart-modal.modal-active .bg-white {
+    transform: scale(1);
+}
+
+/* Scroll Animation Styles */
+.scroll-animate-fade-in-up {
+    opacity: 0;
+    transform: translateY(20px); /* Initial state, same as 'from' in keyframes */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
+}
+
+.scroll-animate-fade-in-up.is-visible {
+    opacity: 1;
+    transform: translateY(0); /* Final state, same as 'to' in keyframes */
+}
+
+/* Parallax image performance hint */
+.parallax-image {
+    will-change: transform;
+}
+
+/* Image loading animation */
+img.image-fade-on-load {
+    opacity: 0;
+    transition: opacity 0.7s ease-in-out; /* Slightly longer duration for image pop */
+}
+
+img.image-fade-on-load.image-loaded {
+    opacity: 1;
+}
